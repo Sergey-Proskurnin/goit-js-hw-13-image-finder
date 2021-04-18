@@ -16,6 +16,13 @@ import {
 import GalleryApiService from './apiService';
 import LoadMoreBtn from './load-more-btn';
 
+// let scrollHeight = Math.max(
+//   document.body.scrollHeight, document.documentElement.scrollHeight,
+//   document.body.offsetHeight, document.documentElement.offsetHeight,
+//   document.body.clientHeight, document.documentElement.clientHeight
+// );
+
+// console.log(scrollHeight);
 const loadMoreBtn = new LoadMoreBtn({
   selector: '[data-action="load-more"]',
   hidden: true,
@@ -34,25 +41,20 @@ function onSearch(e) {
   loadMoreBtn.show();
   galleryApiService.resetPage();
   onCleanerInnerHTML();
-  //   window.scrollTo(0,200);
-  onFetchCard();
+  onloadMore();
+
 }
 
 function onloadMore() {
-  onFetchCard();
-  //   window.scrollTo({
-  //   top: 1000,
-  //   left: 0,
-  // top: window.scrollY + window.innerHeight,
-  // behavior: 'smooth'
-  //   });
-}
-
-function onFetchCard() {
   loadMoreBtn.disable();
-  galleryApiService.fetchApi().then(appendListMarkup);
+  galleryApiService.fetchApi().then(appendListMarkup)
+  .then(windowsScrolling)
+  // .catch(console.log('error'))
+ 
+  
+  
   loadMoreBtn.enable();
-}
+  }
 
 function appendListMarkup(hits) {
   listCard.insertAdjacentHTML('beforeend', countriesCards(hits));
@@ -69,6 +71,29 @@ function onFetchAlert() {
     text: 'Enter something!',
   });
 }
+
+function windowsScrolling() {
+ 
+  let scrollHeight = Math.max(
+    document.body.scrollHeight, document.documentElement.scrollHeight,
+    document.body.offsetHeight, document.documentElement.offsetHeight,
+    document.body.clientHeight, document.documentElement.clientHeight
+  );
+  // console.log(scrollHeight);
+  window.scrollTo({
+  top: scrollHeight,
+  left: 0,
+  behavior: 'smooth'
+  });
+}
+// function windowsScrolling(e) {
+//   window.scrollTo({
+//     top: e.pageY,
+//     left: 0,
+//     behavior: 'smooth',
+//   });
+// }
+
 
 // function deleteError() {
 //   const errorMessage = document.querySelector('.pnotify');

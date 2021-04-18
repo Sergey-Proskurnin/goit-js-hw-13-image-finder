@@ -1,3 +1,4 @@
+import { alert } from '@pnotify/core';
 const BASE_URL =
   'https://pixabay.com/api/?image_type=photo&orientation=horizontal&q';
 const API_KEY = '21195458-19b2d8fc62244b43de198b4d0';
@@ -19,6 +20,9 @@ export default class NewApiService {
         return response.json();
       })
       .then(({ hits }) => {
+        // hits.length === 0 && alert({
+        //   text: 'Enter something!',
+        // });
         this.incrementPage();
         return hits;
       });
