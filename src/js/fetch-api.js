@@ -34,29 +34,27 @@ function onSearch(e) {
   loadMoreBtn.show();
   galleryApiService.resetPage();
   onCleanerInnerHTML();
-//   window.scrollTo(0,200);
+  //   window.scrollTo(0,200);
   onFetchCard();
 }
 
 function onloadMore() {
-    onFetchCard()
-//   window.scrollTo({
-    //   top: 1000,
-    //   left: 0,
-    // top: window.scrollY + window.innerHeight,
-    // behavior: 'smooth'
-//   });
+  onFetchCard();
+  //   window.scrollTo({
+  //   top: 1000,
+  //   left: 0,
+  // top: window.scrollY + window.innerHeight,
+  // behavior: 'smooth'
+  //   });
 }
 
 function onFetchCard() {
-    loadMoreBtn.disable();
+  loadMoreBtn.disable();
   galleryApiService.fetchApi().then(appendListMarkup);
   loadMoreBtn.enable();
-    
 }
 
 function appendListMarkup(hits) {
-    
   listCard.insertAdjacentHTML('beforeend', countriesCards(hits));
 }
 
@@ -66,6 +64,7 @@ function onCleanerInnerHTML() {
 }
 
 function onFetchAlert() {
+  onCleanerInnerHTML();
   alert({
     text: 'Enter something!',
   });
