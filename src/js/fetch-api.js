@@ -73,7 +73,8 @@ function onFetchAlert() {
 }
 
 function windowsScrolling() {
- 
+  const totalScrollHeight = listCard.clientHeight;
+  console.log(totalScrollHeight);
   let scrollHeight = Math.max(
     document.body.scrollHeight, document.documentElement.scrollHeight,
     document.body.offsetHeight, document.documentElement.offsetHeight,
@@ -81,9 +82,11 @@ function windowsScrolling() {
   );
   // console.log(scrollHeight);
   window.scrollTo({
-  top: scrollHeight,
+
+  // top: scrollHeight,
+  top: totalScrollHeight,
   left: 0,
-  behavior: 'smooth'
+  // behavior: 'smooth'
   });
 }
 // function windowsScrolling(e) {
