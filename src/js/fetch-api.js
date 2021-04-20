@@ -1,6 +1,5 @@
 // import debounce from 'lodash.debounce';
 import { alert } from '@pnotify/core';
-
 import countriesCards from '../templates/markup-card.hbs';
 
 import {
@@ -30,48 +29,45 @@ loadMoreBtn.refs.button.addEventListener('click', onloadMore);
 function onSearch(e) {
   e.preventDefault();
   galleryApiService.query = e.currentTarget.elements.query.value;
-  if (galleryApiService.query === '') {
+  if (galleryApiService.query.trim() === '') {
     onFetchAlert();
     return;
   }
-  loadMoreBtn.show();
   galleryApiService.resetPage();
   onCleanerInnerHTML();
   onloadMore();
+  loadMoreBtn.show();
 }
 
 function onloadMore() {
   loadMoreBtn.disable();
-  galleryApiService.fetchApi().then(appendListMarkup).then(windowsScrolling);
-  // .catch(console.log('error'))
+  galleryApiService
+    .fetchApi()
+    .then(appendListMarkup)
+    .then(windowsScrolling)
+    .catch('error');
   loadMoreBtn.enable();
 }
 
-// function onloadMoreKate() {
-//   loadMoreBtn.disable();
-//   galleryApiService.fetchApi().then(hits => {
-//     appendListMarkup(hits);
-//     window.scrollTo({
-//       top: listCard.scrollHeight,
-//       behavior: 'smooth',
-//     });
-//   });
-//   loadMoreBtn.enable()
-// }
-
 function appendListMarkup(hits) {
-  listCard.insertAdjacentHTML('beforeend', countriesCards(hits));
+  if (hits === 'error') {
+    onFetchAlert();
+    loadMoreBtn.hide();
+  }
+
+  const markup = countriesCards(hits);
+  listCard.insertAdjacentHTML('beforeend', markup);
 }
 
 function onCleanerInnerHTML() {
   listCard.innerHTML = '';
-  //   deleteError();
 }
 
 function onFetchAlert() {
   onCleanerInnerHTML();
   alert({
     text: 'Enter something!',
+    delay: 3000,
   });
 }
 
@@ -86,7 +82,6 @@ function windowsScrolling() {
     document.body.clientHeight,
     document.documentElement.clientHeight,
   );
-  console.log(scrollHeight);
   window.scrollTo({
     top: scrollHeight,
     // top: totalScrollHeight,
@@ -100,4 +95,16 @@ function windowsScrolling() {
 //   if (document.body.contains(errorMessage)) {
 //     errorMessage.style.display = 'none';
 //   }
+// }
+
+// function onloadMoreKate() {
+//   loadMoreBtn.disable();
+//   galleryApiService.fetchApi().then(hits => {
+//     appendListMarkup(hits);
+//     window.scrollTo({
+//       top: listCard.scrollHeight,
+//       behavior: 'smooth',
+//     });
+//   });
+//   loadMoreBtn.enable()
 // }
