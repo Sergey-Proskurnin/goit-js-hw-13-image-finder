@@ -16,12 +16,6 @@ import {
 import GalleryApiService from './apiService';
 import LoadMoreBtn from './load-more-btn';
 
-// let scrollHeight = Math.max(
-//   document.body.scrollHeight, document.documentElement.scrollHeight,
-//   document.body.offsetHeight, document.documentElement.offsetHeight,
-//   document.body.clientHeight, document.documentElement.clientHeight
-// );
-
 // console.log(scrollHeight);
 const loadMoreBtn = new LoadMoreBtn({
   selector: '[data-action="load-more"]',
@@ -30,6 +24,8 @@ const loadMoreBtn = new LoadMoreBtn({
 const galleryApiService = new GalleryApiService();
 searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', onloadMore);
+
+// document.addEventListener("DOMContentLoaded", onloadMore)
 
 function onSearch(e) {
   e.preventDefault();
@@ -42,19 +38,26 @@ function onSearch(e) {
   galleryApiService.resetPage();
   onCleanerInnerHTML();
   onloadMore();
-
 }
 
 function onloadMore() {
   loadMoreBtn.disable();
-  galleryApiService.fetchApi().then(appendListMarkup)
-  .then(windowsScrolling)
+  galleryApiService.fetchApi().then(appendListMarkup).then(windowsScrolling);
   // .catch(console.log('error'))
- 
-  
-  
   loadMoreBtn.enable();
-  }
+}
+
+// function onloadMoreKate() {
+//   loadMoreBtn.disable();
+//   galleryApiService.fetchApi().then(hits => {
+//     appendListMarkup(hits);
+//     window.scrollTo({
+//       top: listCard.scrollHeight,
+//       behavior: 'smooth',
+//     });
+//   });
+//   loadMoreBtn.enable()
+// }
 
 function appendListMarkup(hits) {
   listCard.insertAdjacentHTML('beforeend', countriesCards(hits));
@@ -73,30 +76,24 @@ function onFetchAlert() {
 }
 
 function windowsScrolling() {
-  const totalScrollHeight = listCard.clientHeight;
-  console.log(totalScrollHeight);
+  // const totalScrollHeight = listCard.clientHeight;
+  // console.log(totalScrollHeight);
   let scrollHeight = Math.max(
-    document.body.scrollHeight, document.documentElement.scrollHeight,
-    document.body.offsetHeight, document.documentElement.offsetHeight,
-    document.body.clientHeight, document.documentElement.clientHeight
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.offsetHeight,
+    document.body.clientHeight,
+    document.documentElement.clientHeight,
   );
-  // console.log(scrollHeight);
+  console.log(scrollHeight);
   window.scrollTo({
-
-  // top: scrollHeight,
-  top: totalScrollHeight,
-  left: 0,
-  // behavior: 'smooth'
+    top: scrollHeight,
+    // top: totalScrollHeight,
+    left: 0,
+    behavior: 'smooth',
   });
 }
-// function windowsScrolling(e) {
-//   window.scrollTo({
-//     top: e.pageY,
-//     left: 0,
-//     behavior: 'smooth',
-//   });
-// }
-
 
 // function deleteError() {
 //   const errorMessage = document.querySelector('.pnotify');
