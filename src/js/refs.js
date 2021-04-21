@@ -6,5 +6,5 @@
       const btnLoadMore= document.querySelector('.button-load-more');
       const pnotify= document.querySelector('.pnotify');
 
-      export {body, searchForm, input, listCard, btnSubmit, btnLoadMore, pnotify};
+      export {body, searchForm, input, listCard, btnSubmit, btnLoadMore, pnotify, };
 
