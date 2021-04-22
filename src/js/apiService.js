@@ -14,7 +14,7 @@ export default class NewApiService {
     )
       .then(response => {
         if (!response.ok) {
-          throw response;
+          throw new Error (console.log('Error'));
         }
 
         return response.json();
@@ -25,7 +25,8 @@ export default class NewApiService {
         }
         this.incrementPage();
         return hits;
-      });
+      })
+      // .catch(console.log('error'));
   }
   incrementPage() {
     this.numberPage += 1;

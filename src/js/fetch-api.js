@@ -1,8 +1,10 @@
 //----------------------------Imports-----------------------------
 import debounce from 'lodash.debounce';
 import { alert } from '@pnotify/core';
+// import * as basicLightbox from 'basiclightbox'
 import countriesCards from '../templates/markup-card.hbs';
-
+import onOpenModal from './on-open-modal';
+// console.log(onOpenModal);
 import {
   body,
   searchForm,
@@ -24,6 +26,7 @@ const loadMoreBtn = new LoadMoreBtn({
 const galleryApiService = new GalleryApiService();
 searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', onloadMore);
+listCard.addEventListener('click', onOpenModal)
 
 //-----------------------Callback-submit-input-form-search---------------------------------  
 function onSearch(e) {
@@ -47,7 +50,7 @@ function onloadMore() {
     .fetchApi()
     .then(appendListMarkup)
     .then(windowsScrolling)
-    .catch('error');
+    // .catch(console.log('error'));
   loadMoreBtn.enable();
 }
 //---------------Adding-markup-to-code-index.html-------------------------------------------
@@ -105,6 +108,28 @@ const observer = new IntersectionObserver(onEntry, {
 });
 observer.observe(btnLoadMore);
 // ------------------------------------------------------------------------------------------------------
+//------------------------On-open-modal-Basic-Lightbox--------------------------------------------------
+
+// listCard.addEventListener('click', event => {
+//     if (event.target.localName === 'img') {
+//     const imgListSrc = event.target.getAttribute('data-src')
+//     const instance = basicLightbox.create(
+//     `<img src=${imgListSrc} width="1280">`
+// )
+//   instance.show()  
+// const escBtn = window.addEventListener('keyup', event => {
+//   if (event.key === 'Escape') {
+//     instance.close();
+//     window.removeEventListener('keyup', escBtn)
+
+//  }
+ 
+//  console.log(escBtn);
+// });
+//   }
+// });
+
+
 // --------------------------Delete-message-pnotify------------------------------------------------------
 // function deleteError() {
 //   const errorMessage = document.querySelector('.pnotify');
