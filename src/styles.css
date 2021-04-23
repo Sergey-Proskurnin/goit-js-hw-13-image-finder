@@ -17,6 +17,8 @@ body {
    * CSS image reference example.
    */
     background-image: url('./images/atmosphere-background.jpg');
+    background-position: 50% 50%;
+    background-size: cover
   
 }
 

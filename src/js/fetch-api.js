@@ -33,13 +33,20 @@ function onSearch(e) {
   loadMoreBtn.show();
 }
 // -----------------------------------------------------------------------------------------
-// ------------------------------Callback-API-response-processing-function------------------
-function onloadMore() {
+// -----------------------------option-callback-API-response-processing-function-on-Promise.then--------
+// function onloadMore() {
+//   loadMoreBtn.disable();
+//   galleryApiService.fetchApi().then(appendListMarkup)
+  
+//   loadMoreBtn.enable();
+// }
+// -------------------------------------------------------------------------------------------------
+// -----------------------------Callback-API-response-processing-function-on-async-await-----------
+async function onloadMore() {
   loadMoreBtn.disable();
-  galleryApiService.fetchApi().then(appendListMarkup)
-  // .catch(console.log('error'));
-  loadMoreBtn.enable();
-}
+  const galleryArrey = await galleryApiService.fetchApi()
+  return appendListMarkup(galleryArrey)
+ }
 //---------------Adding-markup-to-code-index.html-------------------------------------------
 function appendListMarkup(hits) {
   if (hits === 'error') {
@@ -48,7 +55,7 @@ function appendListMarkup(hits) {
   }
   const markup = countriesCards(hits);
   listCard.insertAdjacentHTML('beforeend', markup);
-}
+ }
 //-----------------------------------------------------------------------------------------
 // --------------------------Function-cleaner-list-gallery-marcup-HTML----------------------
 function onCleanerInnerHTML() {
@@ -56,7 +63,7 @@ function onCleanerInnerHTML() {
 }
 // --------------------------Function-message-alert-pnotify----------------------------------
 function onFetchAlert() {
-  onCleanerInnerHTML();
+ 
   alert({
     text: 'Enter something!',
     delay: 3000,

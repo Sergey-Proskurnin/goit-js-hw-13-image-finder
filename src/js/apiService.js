@@ -7,27 +7,46 @@ export default class NewApiService {
     this.searchQuery = '';
     this.numberPage = 1;
   }
+// -------------------------option-Promise.then---------------------------------------------------
+  // fetchApi() {
+  //   return fetch(
+  //     `${BASE_URL}=${this.searchQuery}&page=${this.numberPage}&per_page=12&key=${API_KEY}`,
+  //   )
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error (console.log('Error'));
+  //       }
 
-  fetchApi() {
-    return fetch(
+  //       return response.json();
+  //     })
+  //     .then(({ hits }) => {
+  //       if (hits.length === 0) {
+  //         return 'error';
+  //       }
+  //       this.incrementPage();
+  //       return hits;
+  //     })
+  //     // .catch(console.log('error'));
+  // }
+//-----------------------------------------------------------------------------------------------
+// ------------------------option-async-await----------------------------------------------------
+async fetchApi() {
+   const response = await fetch(
       `${BASE_URL}=${this.searchQuery}&page=${this.numberPage}&per_page=12&key=${API_KEY}`,
     )
-      .then(response => {
-        if (!response.ok) {
+       if (!response.ok) {
           throw new Error (console.log('Error'));
         }
 
-        return response.json();
-      })
-      .then(({ hits }) => {
-        if (hits.length === 0) {
+        const { hits } = await response.json();
+            if (hits.length === 0) {
           return 'error';
         }
         this.incrementPage();
-        return hits;
-      })
+        return await hits;
+      }
       // .catch(console.log('error'));
-  }
+  
   incrementPage() {
     this.numberPage += 1;
   }
