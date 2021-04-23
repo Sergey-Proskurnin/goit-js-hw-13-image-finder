@@ -1,20 +1,9 @@
 //----------------------------Imports-----------------------------
 import debounce from 'lodash.debounce';
 import { alert } from '@pnotify/core';
-// import * as basicLightbox from 'basiclightbox'
 import countriesCards from '../templates/markup-card.hbs';
 import onOpenModal from './on-open-modal';
-// console.log(onOpenModal);
-import {
-  body,
-  searchForm,
-  input,
-  listCard,
-  btnSubmit,
-  btnLoadMore,
-  pnotify,
-  scrollHeight,
-} from './refs';
+import { searchForm, listCard, btnLoadMore } from './refs';
 
 import GalleryApiService from './apiService';
 import LoadMoreBtn from './load-more-btn';
@@ -26,15 +15,16 @@ const loadMoreBtn = new LoadMoreBtn({
 const galleryApiService = new GalleryApiService();
 searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', onloadMore);
-listCard.addEventListener('click', onOpenModal)
+listCard.addEventListener('click', onOpenModal);
 
-//-----------------------Callback-submit-input-form-search---------------------------------  
+//-----------------------Callback-submit-input-form-search---------------------------------
 function onSearch(e) {
   e.preventDefault();
   galleryApiService.query = e.currentTarget.elements.query.value;
   if (galleryApiService.query.trim() === '') {
-    loadMoreBtn.hide()
+    loadMoreBtn.hide();
     onFetchAlert();
+    onCleanerInnerHTML();
     return;
   }
   galleryApiService.resetPage();
@@ -46,11 +36,8 @@ function onSearch(e) {
 // ------------------------------Callback-API-response-processing-function------------------
 function onloadMore() {
   loadMoreBtn.disable();
-  galleryApiService
-    .fetchApi()
-    .then(appendListMarkup)
-    .then(windowsScrolling)
-    // .catch(console.log('error'));
+  galleryApiService.fetchApi().then(appendListMarkup)
+  // .catch(console.log('error'));
   loadMoreBtn.enable();
 }
 //---------------Adding-markup-to-code-index.html-------------------------------------------
@@ -77,29 +64,29 @@ function onFetchAlert() {
 }
 // -------------------------------------------------------------------------------------------
 // ---------------------------------Window.scrollTo()-----------------------------------------
-function windowsScrolling() {
+// function windowsScrolling() {
   // const totalScrollHeight = listCard.clientHeight;
-  const scrollHeight = Math.max(
-    document.body.scrollHeight,
-    document.documentElement.scrollHeight,
-    document.body.offsetHeight,
-    document.documentElement.offsetHeight,
-    document.body.clientHeight,
-    document.documentElement.clientHeight,
-  );
+  // const scrollHeight = Math.max(
+  //   document.body.scrollHeight,
+  //   document.documentElement.scrollHeight,
+  //   document.body.offsetHeight,
+  //   document.documentElement.offsetHeight,
+  //   document.body.clientHeight,
+  //   document.documentElement.clientHeight,
+  // );
   //  window.scrollTo({
   //   top: scrollHeight,
   //   // top: totalScrollHeight,
   //   left: 0,
   //   behavior: 'smooth',
   // });
-}
-// --------------------------Intersection-Observer----------------------------------------------------  
+// }
+// --------------------------Intersection-Observer----------------------------------------------------
 const onEntry = debounce(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting && galleryApiService.query !== '') {
-      onloadMore()
-      loadMoreBtn.disable()
+      onloadMore();
+      loadMoreBtn.disable();
     }
   });
 }, 500);
@@ -116,19 +103,18 @@ observer.observe(btnLoadMore);
 //     const instance = basicLightbox.create(
 //     `<img src=${imgListSrc} width="1280">`
 // )
-//   instance.show()  
+//   instance.show()
 // const escBtn = window.addEventListener('keyup', event => {
 //   if (event.key === 'Escape') {
 //     instance.close();
 //     window.removeEventListener('keyup', escBtn)
 
 //  }
- 
+
 //  console.log(escBtn);
 // });
 //   }
 // });
-
 
 // --------------------------Delete-message-pnotify------------------------------------------------------
 // function deleteError() {
@@ -151,4 +137,3 @@ observer.observe(btnLoadMore);
 //   loadMoreBtn.enable()
 // }
 // ---------------------------------------------------------------------------------------------------------
-
