@@ -7,7 +7,7 @@ export default class NewApiService {
     this.searchQuery = '';
     this.numberPage = 1;
   }
-// -------------------------option-Promise.then---------------------------------------------------
+  // -------------------------option-Promise.then---------------------------------------------------
   // fetchApi() {
   //   return fetch(
   //     `${BASE_URL}=${this.searchQuery}&page=${this.numberPage}&per_page=12&key=${API_KEY}`,
@@ -16,7 +16,6 @@ export default class NewApiService {
   //       if (!response.ok) {
   //         throw new Error (console.log('Error'));
   //       }
-
   //       return response.json();
   //     })
   //     .then(({ hits }) => {
@@ -26,27 +25,23 @@ export default class NewApiService {
   //       this.incrementPage();
   //       return hits;
   //     })
-  //     // .catch(console.log('error'));
   // }
-//-----------------------------------------------------------------------------------------------
-// ------------------------option-async-await----------------------------------------------------
-async fetchApi() {
-   const response = await fetch(
+  //-----------------------------------------------------------------------------------------------
+  // ------------------------option-async-await----------------------------------------------------
+  async fetchApi() {
+    const response = await fetch(
       `${BASE_URL}=${this.searchQuery}&page=${this.numberPage}&per_page=12&key=${API_KEY}`,
-    )
-       if (!response.ok) {
-          throw new Error (console.log('Error'));
-        }
-
-        const { hits } = await response.json();
-            if (hits.length === 0) {
-          return 'error';
-        }
-        this.incrementPage();
-        return await hits;
-      }
-      // .catch(console.log('error'));
-  
+    );
+    if (!response.ok) {
+      throw new Error(console.log('Error'));
+    }
+    const { hits } = await response.json();
+    if (hits.length === 0) {
+      return 'error';
+    }
+    this.incrementPage();
+    return await hits;
+  }
   incrementPage() {
     this.numberPage += 1;
   }
@@ -60,4 +55,3 @@ async fetchApi() {
     this.searchQuery = newQuery;
   }
 }
-
