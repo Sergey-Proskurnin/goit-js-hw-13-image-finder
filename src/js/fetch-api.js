@@ -44,8 +44,13 @@ function onSearch(e) {
 // -----------------------------Callback-API-response-processing-function-on-async-await-----------
 async function onloadMore() {
   loadMoreBtn.disable();
-  const galleryArrey = await galleryApiService.fetchApi();
-  return appendListMarkup(galleryArrey);
+  try {
+    loadMoreBtn.disable();
+    const galleryArrey = await galleryApiService.fetchApi();
+    return appendListMarkup(galleryArrey);
+  } catch {
+    throw onFetchError();
+  }
 }
 //------------------------Adding-markup-to-code-index.html-------------------------------------------
 function appendListMarkup(hits) {
