@@ -1,6 +1,6 @@
 //----------------------------Imports-----------------------------
 import debounce from 'lodash.debounce';
-import { alert } from '@pnotify/core';
+import { alert, error } from '@pnotify/core';
 import countriesCards from '../templates/markup-card.hbs';
 import onOpenModal from './on-open-modal';
 import { searchForm, listCard, btnLoadMore, input } from './refs';
@@ -36,8 +36,9 @@ function onSearch(e) {
 // function onloadMore() {
 //   loadMoreBtn.disable();
 //   galleryApiService.fetchApi().then(appendListMarkup)
-
+//   .then(windowsScrolling)
 //   loadMoreBtn.enable();
+//   .catch(onFetchError())
 // }
 // -------------------------------------------------------------------------------------------------
 // -----------------------------Callback-API-response-processing-function-on-async-await-----------
@@ -106,4 +107,10 @@ function onCleanerInput(e) {
     onCleanerInnerHTML();
     loadMoreBtn.hide();
   }
+}
+function onFetchError() {
+  error({
+    text: 'Error fetch!',
+    delay: 3000,
+  });
 }

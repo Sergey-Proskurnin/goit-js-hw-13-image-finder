@@ -1,5 +1,5 @@
-import './styles.css';
 import './css/form.css';
+import './styles.css';
 import 'material-design-icons/iconfont/material-icons.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
