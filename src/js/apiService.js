@@ -7,7 +7,7 @@ export default class NewApiService {
     this.searchQuery = '';
     this.numberPage = 1;
   }
-  // -------------------------option-Promise.then---------------------------------------------------
+  // -------------------------Option-Promise.then---------------------------------------------------
   // fetchApi() {
   //   return fetch(
   //     `${BASE_URL}=${this.searchQuery}&page=${this.numberPage}&per_page=12&key=${API_KEY}`,
@@ -27,7 +27,7 @@ export default class NewApiService {
   //     })
   // }
   //-----------------------------------------------------------------------------------------------
-  // ------------------------option-async-await----------------------------------------------------
+  // ------------------------Option-async-await----------------------------------------------------
   async fetchApi() {
     const response = await fetch(
       `${BASE_URL}=${this.searchQuery}&page=${this.numberPage}&per_page=12&key=${API_KEY}`,
@@ -36,7 +36,7 @@ export default class NewApiService {
       throw new Error(console.log('Error'));
     }
     const { hits } = await response.json();
-    if (hits.length === 0) {
+    if (hits.length === 0 && this.numberPage === 1) {
       return 'error';
     }
     this.incrementPage();

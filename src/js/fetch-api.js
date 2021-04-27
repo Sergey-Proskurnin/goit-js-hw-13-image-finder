@@ -31,8 +31,8 @@ function onSearch(e) {
   onloadMore();
   loadMoreBtn.show();
 }
-// -----------------------------------------------------------------------------------------
-// -----------------------------Option-callback-API-response-processing-function-on-Promise.then--------
+// ----------------------------------------------------------------------------------------------------------
+// -----------------------------Option-callback-API-response-processing-function-on-Promise.then-------------
 // function onloadMore() {
 //   loadMoreBtn.disable();
 //   galleryApiService.fetchApi().then(appendListMarkup)
@@ -41,7 +41,7 @@ function onSearch(e) {
 //   .catch(onFetchError())
 // }
 // -------------------------------------------------------------------------------------------------
-// -----------------------------Callback-API-response-processing-function-on-async-await-----------
+// -----------------------------Callback-API-response-processing-function-on-async-await------------
 async function onloadMore() {
   loadMoreBtn.disable();
   try {
@@ -52,29 +52,21 @@ async function onloadMore() {
     throw onFetchError();
   }
 }
+//---------------------------------------------------------------------------------------------------
 //------------------------Adding-markup-to-code-index.html-------------------------------------------
 function appendListMarkup(hits) {
   if (hits === 'error') {
     onFetchAlert();
     loadMoreBtn.hide();
   }
+  if (hits.length < 1) {
+    loadMoreBtn.hide();
+  }
   const markup = countriesCards(hits);
   listCard.insertAdjacentHTML('beforeend', markup);
 }
 //--------------------------------------------------------------------------------------------------
-// -----------------------------------------Cleaner-list-gallery-marcup-HTML-------------------------
-function onCleanerInnerHTML() {
-  listCard.innerHTML = '';
-}
-// ------------------------------------Message-alert-pnotify----------------------------------
-function onFetchAlert() {
-  alert({
-    text: 'Enter something!',
-    delay: 3000,
-  });
-}
-// -------------------------------------------------------------------------------------------
-// ---------------------------------Window.scrollTo()-----------------------------------------
+// ---------------------------------Window.scrollTo()---------------------------------      --------
 // function windowsScrolling() {
 // const totalScrollHeight = listCard.clientHeight;
 // const scrollHeight = Math.max(
@@ -92,6 +84,7 @@ function onFetchAlert() {
 //   behavior: 'smooth',
 // });
 // }
+//--------------------------------------------------------------------------------------------------------
 // ---------------------------------Intersection-Observer-------------------------------------------------
 const onEntry = debounce(entries => {
   entries.forEach(entry => {
@@ -106,16 +99,40 @@ const observer = new IntersectionObserver(onEntry, {
 });
 observer.observe(btnLoadMore);
 // ------------------------------------------------------------------------------------------------------
-// -----------------------------------Cleaner-input------------------------------------------------------
-function onCleanerInput(e) {
-  if (e.target.value.length === 0) {
-    onCleanerInnerHTML();
-    loadMoreBtn.hide();
-  }
-}
+//------------------------------------------Message-error-pnotify----------------------------------------
 function onFetchError() {
   error({
     text: 'Error fetch!',
     delay: 3000,
   });
 }
+//--------------------------------------------------------------------------------------------------------
+//-----------------------------------------------Delete-message-pnotify-----------------------------------
+function deletePnotify() {
+  const pnotifyMessage = document.querySelector('.pnotify');
+  if (document.body.contains(pnotifyMessage)) {
+    pnotifyMessage.style.display = 'none';
+  }
+}
+//---------------------------------------------------------------------------------------------------------
+// ------------------------------------Message-alert-pnotify-----------------------------------------------
+function onFetchAlert() {
+  alert({
+    text: 'Enter something!',
+    delay: 3000,
+  });
+}
+// --------------------------------------------------------------------------------------------------
+// -----------------------------------------Cleaner-list-gallery-marcup-HTML-------------------------
+function onCleanerInnerHTML() {
+  listCard.innerHTML = '';
+}
+// -----------------------------------Cleaner-input------------------------------------------------------
+function onCleanerInput(e) {
+  if (e.target.value.length === 0) {
+    onCleanerInnerHTML();
+    loadMoreBtn.hide();
+    deletePnotify();
+  }
+}
+//------------------------------------------------------------------------------------------------------
