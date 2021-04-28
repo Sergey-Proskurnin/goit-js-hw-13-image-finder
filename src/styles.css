@@ -28,6 +28,9 @@ body {
   align-items: center;
   justify-content: center;
 }
+body.is-open {
+  overflow: hidden;
+}
 
 img {
   display: block;
