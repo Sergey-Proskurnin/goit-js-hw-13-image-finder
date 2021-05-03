@@ -1,5 +1,4 @@
-const BASE_URL =
-  'https://pixabay.com/api/?image_type=photo&orientation=horizontal&q';
+const BASE_URL = 'https://pixabay.com/api';
 const API_KEY = '21195458-19b2d8fc62244b43de198b4d0';
 
 export default class NewApiService {
@@ -9,12 +8,19 @@ export default class NewApiService {
   }
   // -------------------------Option-Promise.then---------------------------------------------------
   // fetchApi() {
-  //   return fetch(
-  //     `${BASE_URL}=${this.searchQuery}&page=${this.numberPage}&per_page=12&key=${API_KEY}`,
-  //   )
+  //   const searchParams = new URLSearchParams({
+  //     image_type: 'photo',
+  //     orientation: 'horizontal',
+  //     q: this.searchQuery,
+  //     page: this.numberPage,
+  //     per_page: 12,
+  //     key: API_KEY,
+  //   });
+  //   const url = `${BASE_URL}/?${searchParams}`;
+  //   return fetch(url)
   //     .then(response => {
   //       if (!response.ok) {
-  //         throw new Error (console.log('Error'));
+  //         throw new Error(console.log('Error'));
   //       }
   //       return response.json();
   //     })
@@ -24,14 +30,21 @@ export default class NewApiService {
   //       }
   //       this.incrementPage();
   //       return hits;
-  //     })
+  //     });
   // }
   //-----------------------------------------------------------------------------------------------
   // ------------------------Option-async-await----------------------------------------------------
   async fetchApi() {
-    const response = await fetch(
-      `${BASE_URL}=${this.searchQuery}&page=${this.numberPage}&per_page=12&key=${API_KEY}`,
-    );
+    const searchParams = new URLSearchParams({
+      image_type: 'photo',
+      orientation: 'horizontal',
+      q: this.searchQuery,
+      page: this.numberPage,
+      per_page: 12,
+      key: API_KEY,
+    });
+    const url = `${BASE_URL}/?${searchParams}`;
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(console.log('Error'));
     }
